@@ -1,33 +1,82 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aluminante Signature</title>
+<style>
+  body{margin:0;padding:32px 16px;background:#f3f3f1;font-family:Arial,Helvetica,sans-serif;color:#1f2933}
+  .wrap{max-width:680px;margin:0 auto}
+  h1{font-size:18px;margin:0 0 6px}
+  p.hint{font-size:13px;color:#52606d;margin:0 0 24px;line-height:1.5}
+  .card{background:#fff;border:1px solid #e1e1dc;border-radius:8px;padding:20px;margin-bottom:20px}
+  .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+  .bar b{font-size:13px;color:#52606d;font-weight:normal}
+  button{font:inherit;font-size:13px;padding:8px 16px;border:0;border-radius:6px;background:#1f2933;color:#fff;cursor:pointer}
+  button.ok{background:#25a35a}
+</style>
 </head>
-<body style="margin:0;padding:24px 16px;background:#ffffff;">
+<body>
+<div class="wrap">
+  <h1>Подпись Aluminante для Gmail</h1>
+  <p class="hint">Нажмите «Скопировать подпись» под нужным вариантом, затем Gmail → Настройки → Подпись → кликните в поле → Ctrl+V (Cmd+V). Текст, баннер и ссылки вставятся разом.</p>
 
-<!-- ШАГ 1: выделите и скопируйте только этот текстовый блок (от имени до aluminante.com) -->
-<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#1f2933;border-collapse:collapse;">
-  <tr>
-    <td style="padding:0 0 0 12px;border-left:3px solid #b08d57;">
-      <div style="font-size:16px;font-weight:bold;color:#1f2933;line-height:20px;">Serg Tarkovsky</div>
-      <div style="font-size:13px;color:#b08d57;line-height:18px;padding-bottom:6px;">Head of Sales · Export &amp; Partners</div>
-      <div style="font-size:13px;line-height:20px;color:#3e4c59;">
-        <a href="tel:+905395741823" style="color:#3e4c59;text-decoration:none;">+90 539 574 1823</a>
-        &nbsp;·&nbsp;
-        <a href="https://wa.me/905395741823" style="color:#25a35a;text-decoration:none;font-weight:bold;">WhatsApp</a>
-        &nbsp;·&nbsp;
-        <a href="https://aluminante.com" style="color:#1f2933;text-decoration:none;font-weight:bold;">aluminante.com</a>
-      </div>
-    </td>
-  </tr>
-</table>
-
-<!-- ШАГ 2: баннер НЕ копируется — вставляется в Gmail кнопкой «Вставить изображение» → «Загрузить» -->
-<div style="padding-top:14px;">
-  <a href="https://aluminante.com"><img src="signature-assets/banner-catalogue-dark.png" width="600" height="180" alt="Aluminante — Catalogue 2026" style="display:block;border:0;max-width:100%;height:auto;"></a>
+  <div class="card"><div class="bar"><b>Вариант 1: каталог, тёмный</b><button data-copy="s1">Скопировать подпись</button></div><div id="s1"></div></div>
+  <div class="card"><div class="bar"><b>Вариант 2: ограждения, тёмный</b><button data-copy="s2">Скопировать подпись</button></div><div id="s2"></div></div>
+  <div class="card"><div class="bar"><b>Вариант 3: каталог, светлый</b><button data-copy="s3">Скопировать подпись</button></div><div id="s3"></div></div>
 </div>
 
+<script>
+  // Ссылка, на которую ведёт баннер. Замените на ссылку PDF-каталога, когда она будет.
+  var CATALOGUE_URL = 'https://aluminante.com';
+  var IMG = 'https://raw.githubusercontent.com/pososite1488/pososite14/master/signature-assets/';
+  var BANNERS = {
+    s1: ['banner-catalogue-dark-600.png', 'Aluminante — Catalogue 2026'],
+    s2: ['banner-railing-dark-600.png', 'Aluminante — Base profiles for glass railings'],
+    s3: ['banner-catalogue-light-600.png', 'Aluminante — Catalogue 2026']
+  };
+
+  function signature(banner) {
+    return '' +
+      '<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#1f2933;border-collapse:collapse;">' +
+        '<tr><td style="padding:0 0 0 12px;border-left:3px solid #b08d57;">' +
+          '<div style="font-size:16px;font-weight:bold;color:#1f2933;line-height:20px;">Serg Tarkovsky</div>' +
+          '<div style="font-size:13px;color:#b08d57;line-height:18px;padding-bottom:6px;">Head of Sales · Export &amp; Partners</div>' +
+          '<div style="font-size:13px;line-height:20px;color:#3e4c59;">' +
+            '<a href="tel:+905395741823" style="color:#3e4c59;text-decoration:none;">+90 539 574 1823</a>' +
+            '&nbsp;·&nbsp;<a href="https://wa.me/905395741823" style="color:#25a35a;text-decoration:none;font-weight:bold;">WhatsApp</a>' +
+            '&nbsp;·&nbsp;<a href="https://aluminante.com" style="color:#1f2933;text-decoration:none;font-weight:bold;">aluminante.com</a>' +
+          '</div>' +
+        '</td></tr>' +
+        '<tr><td style="padding-top:14px;">' +
+          '<a href="' + CATALOGUE_URL + '"><img src="' + IMG + banner[0] + '" width="600" height="180" alt="' + banner[1] + '" style="display:block;border:0;max-width:100%;height:auto;"></a>' +
+        '</td></tr>' +
+      '</table>';
+  }
+
+  Object.keys(BANNERS).forEach(function (id) {
+    document.getElementById(id).innerHTML = signature(BANNERS[id]);
+  });
+
+  document.querySelectorAll('button[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.copy);
+      var done = function () { btn.textContent = 'Скопировано ✓'; btn.classList.add('ok'); };
+      try {
+        var html = el.innerHTML;
+        navigator.clipboard.write([new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([el.innerText], { type: 'text/plain' })
+        })]).then(done, fallback);
+      } catch (e) { fallback(); }
+      function fallback() {
+        // Старые браузеры: выделяем блок и копируем как выделение
+        var r = document.createRange(); r.selectNodeContents(el);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        document.execCommand('copy'); s.removeAllRanges(); done();
+      }
+    });
+  });
+</script>
 </body>
 </html>
